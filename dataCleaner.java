@@ -9,9 +9,10 @@ import java.io.*;
 import java.util.Iterator;
 
 
-// for output look at https://www.mkyong.com/java/json-simple-example-read-and-write-json/
-
 public class dataCleaner {
+	
+	static JSONArray output = new JSONArray();				// the final output array - [{obj_0},{obj_1},{...}], where obj_i = uuid, readings
+	static JSONObject outputObj = new JSONObject();
 
 	public static void main(String[] args) {
 		
@@ -36,33 +37,25 @@ public class dataCleaner {
 			
 		}
 		
-		int totalTotalLogon = 0;
+		long totalTotalLogon = 0;
 		Iterator<String> iterator1 = device.iterator();
 		
 		int m = 0;
 		while (iterator1.hasNext() && m < device.size()) {
 			
-			JSONArray outputArray = new JSONArray();
-			JSONObject outputUuid = new JSONObject();
+			JSONArray outputArray = new JSONArray();	// readings-values for output, temporary holder
 		
 			JSONObject readingsObj = (JSONObject) device.get(m); 
-			
 			String uuid = (String) readingsObj.get("uuid");
 			JSONArray readings = (JSONArray) readingsObj.get("Readings");
 			
-			outputUuid.put("uuid", uuid);
-			
-			// JSONObject uuid = (JSONObject) device.get(1);
-			
-			System.out.println("Readings = " + readings);
-			System.out.println("uuid = " + uuid);
-			
 			JSONArray values;
 	    	
+			// For analysis: 
 	    	long[] timestamp = new long[readings.size()+1];
 	    	long[] logons = new long[readings.size()+1];
-	    	
 	    	long totalLogons = 0;
+	    	
 	    	
 	    	Iterator<String> iterator2 = readings.iterator();
 	    	
@@ -77,10 +70,6 @@ public class dataCleaner {
 	    		//System.out.println("Timestamp " + timestamp[i] + " logons " + logons[i]);
 	    		
 	    		if (i > 0) {				
-		    		if (timestamp[i] - timestamp[i-1] == 0) {
-		    			// they are equal, skip timestamp
-		    			skipTime = true;
-		    		}
 		    											// 1 minute
 		    		if (timestamp[i] - timestamp[i-1] < 60000) {
 		    			// there is less than 1 minute between the two timestamps
@@ -102,12 +91,23 @@ public class dataCleaner {
 			
 	    	totalTotalLogon += totalLogons;
 	    	
+	    	outputObj.put("uuid", uuid);
+	    	outputObj.put("Readings", outputArray);
+	    	
+	    	output.add(outputObj);
+	    	
 			m += 1;
-			
-			System.out.println("Output " + outputArray);
-			//writeToFile
 		}
 		
 		System.out.println("Done with " + totalTotalLogon);
+		
+		try {
+			FileWriter file = new FileWriter("C:/Users/BA9931/Desktop/dateCleanerOutput.txt");
+			file.write(output.toJSONString());
+			file.flush();
+			file.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }
