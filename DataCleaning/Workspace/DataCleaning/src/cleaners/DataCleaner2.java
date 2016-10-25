@@ -12,7 +12,7 @@ public class DataCleaner2 {
 	public static void main(String[] args) throws FileNotFoundException, IOException, ParseException {
 		// the final output array - [{obj_0},{obj_1},{...}], where obj_i = uuid, readings
 		JSONArray output = new JSONArray();
-		JSONObject outputObj = new JSONObject();
+		
 		BufferedReader scanner = new BufferedReader(new InputStreamReader(System.in));
 
 		JSONArray devices = (JSONArray) new JSONParser().parse(scanner);
@@ -20,42 +20,43 @@ public class DataCleaner2 {
 		long totalTotalLogon = 0;
 
     	for(int m = 0; m < devices.size(); m++){
+    		JSONObject outputObj = new JSONObject();
 			JSONArray outputArray = new JSONArray();	// readings-values for output, temporary holder
 		
 			JSONObject readingsObj = (JSONObject) devices.get(m); 
 			String uuid = (String) readingsObj.get("uuid");
 			JSONArray readings = (JSONArray) readingsObj.get("Readings");
-			//System.out.println(uuid + " readings: " + readings.size());
 			
 			// For analysis: 
 	    	long[] timestamp = new long[readings.size()+1];
 	    	long[] logons = new long[readings.size()+1];
 	    	long totalLogons = 0;
 	    	
-
 	    	for(int i = 0; i < readings.size(); i++){
 	    		JSONArray reading = (JSONArray) readings.get(i);
+	    		try{
+	    			timestamp[i] = (long) reading.get(0);
+	    			logons[i] = (long) reading.get(1);
+	    		} catch(java.lang.ClassCastException e){
+	    			// TODO: Handle.
+	    			System.err.println(uuid + " could not be converted:" + e.getStackTrace());
+	    		}
 	    		
-	    		timestamp[i] = (long) reading.get(0);
-	    		logons[i] = (long) reading.get(1);
-	    		
-	    		//if ((i == 0 || hasValidTimestamp(timestamp[i-1], timestamp[i]))
-	    		//		&& hasValidLogons(logons[i])) {
+	    		if ((i == 0 || hasValidTimestamp(timestamp[i-1], timestamp[i]))
+	    				&& hasValidLogons(logons[i])
+	    				) {
 	    			totalLogons += logons[i];
-	    			outputArray.add(reading.clone());	// add object to output array
-	    		//}
+	    			outputArray.add(reading);	// add object to output array
+	    		}
 	    	}
-	    	
-	    	//System.err.println("Total logons today = " + totalLogons + " on " + uuid);
 			
 	    	totalTotalLogon += totalLogons;
 	    	
-	    	outputObj.put("uuid", uuid);
 	    	outputObj.put("Readings", outputArray);
+	    	outputObj.put("uuid", uuid);
+
 	    	
 	    	output.add(outputObj);
-	    	
-			//m += 1;
 		}
 		
 		System.out.print(output.toJSONString());
@@ -68,6 +69,6 @@ public class DataCleaner2 {
 	
 	// 60 seconds should have passed since previous.
 	private static boolean hasValidTimestamp(long previous, long current){
-		return current - previous < 60000;
+		return current - previous >= 58000;
 	}
 }
