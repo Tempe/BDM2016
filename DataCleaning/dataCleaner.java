@@ -9,7 +9,7 @@ import java.io.*;
 import java.util.Iterator;
 
 
-public class DataCleaner {
+public class dataCleaner {
 	
 	static JSONArray output = new JSONArray();				// the final output array - [{obj_0},{obj_1},{...}], where obj_i = uuid, readings
 	static JSONObject outputObj = new JSONObject();
@@ -19,15 +19,10 @@ public class DataCleaner {
 		boolean skipTime = false;
 		JSONParser parser = new JSONParser();
 		JSONArray device = new JSONArray();
-		if(args.length != 2) {
-			System.out.println("Must have input and output params.");
-			return;
-		}
-		String inputFile = args[0];
-		String outputFile = args[1];
+		
 		try{
 			try {
-				device = (JSONArray) parser.parse(new FileReader(inputFile));
+				device = (JSONArray) parser.parse(new FileReader("C:/Users/BA9931/Desktop/2016-10-04.json"));
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -73,7 +68,7 @@ public class DataCleaner {
 	    		
 	    		//System.out.println("Values " + values);
 	    		//System.out.println("Timestamp " + timestamp[i] + " logons " + logons[i]);
-	    		//TODO: Should problably be sorted first? Might not be sorted. Maybe.
+	    		
 	    		if (i > 0) {				
 		    											// 1 minute
 		    		if (timestamp[i] - timestamp[i-1] < 60000) {
@@ -100,13 +95,14 @@ public class DataCleaner {
 	    	outputObj.put("Readings", outputArray);
 	    	
 	    	output.add(outputObj);
+	    	
 			m += 1;
 		}
 		
 		System.out.println("Done with " + totalTotalLogon);
 		
 		try {
-			FileWriter file = new FileWriter(outputFile);
+			FileWriter file = new FileWriter("C:/Users/BA9931/Desktop/dateCleanerOutput.txt");
 			file.write(output.toJSONString());
 			file.flush();
 			file.close();
