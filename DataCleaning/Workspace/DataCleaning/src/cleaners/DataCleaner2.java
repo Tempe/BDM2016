@@ -36,10 +36,15 @@ public class DataCleaner2 {
 	    		JSONArray reading = (JSONArray) readings.get(i);
 	    		try{
 	    			timestamp[i] = (long) reading.get(0);
-	    			logons[i] = (long) reading.get(1);
 	    		} catch(java.lang.ClassCastException e){
+	    			timestamp[i] = (long) (double)reading.get(0);
 	    			// TODO: Handle.
 	    			System.err.println(uuid + " could not be converted:" + e.getStackTrace());
+	    		}
+	    		try{
+	    			logons[i] = (long) reading.get(1);
+	    		} catch(java.lang.ClassCastException e){
+	    			logons[i] = (long) (double) reading.get(1);
 	    		}
 	    		
 	    		if ((i == 0 || hasValidTimestamp(timestamp[i-1], timestamp[i]))
