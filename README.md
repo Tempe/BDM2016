@@ -13,3 +13,11 @@ You can now push .jar's (and anything really) running the deploy script from a p
 ```
 
 Files sharing the same name in the root directory on the server will be replaced by the new files.
+
+To allow scripts you might need to set your ExecutionPolicy by running
+
+```
+Set-ExecutionPolicy Unrestricted
+```
+
+in an elevated powershell window. `Restricted` is default.
