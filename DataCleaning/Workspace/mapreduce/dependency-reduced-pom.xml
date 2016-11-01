@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>dk.itu.bdmgroup17</groupId>
+  <artifactId>mapreduce</artifactId>
+  <name>app</name>
+  <version>0.0.1-SNAPSHOT</version>
+  <description>description</description>
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-shade-plugin</artifactId>
+        <version>2.1</version>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <minimizeJar>true</minimizeJar>
+          <transformers>
+            <transformer>
+              <mainClass>dk.itu.mapreduce.Driver</mainClass>
+            </transformer>
+          </transformers>
+          <artifactSet>
+            <excludes />
+          </artifactSet>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+  <dependencies>
+    <dependency>
+      <groupId>jdk.tools</groupId>
+      <artifactId>jdk.tools</artifactId>
+      <version>1.8.0_73</version>
+      <scope>system</scope>
+      <systemPath>C:\Program Files\Java\jdk1.8.0_74/lib/tools.jar</systemPath>
+    </dependency>
+  </dependencies>
+</project>
+
