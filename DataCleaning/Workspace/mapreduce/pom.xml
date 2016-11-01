@@ -40,7 +40,7 @@
 			<groupId>jdk.tools</groupId>
 			<artifactId>jdk.tools</artifactId>
 			<scope>system</scope>
-			<version>1.8.0_73</version>
+			<version>1.8.0_112</version>
 			<systemPath>${JAVA_HOME}/lib/tools.jar</systemPath>
 		</dependency>
 		<!-- Hadoop Core -->
