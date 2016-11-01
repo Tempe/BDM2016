@@ -14,6 +14,9 @@ import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
 
+import cleaner.CleaningMapper;
+import cleaner.CleaningReducer;
+
 public class Driver {
 	public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
 		int mapperType = Integer.parseInt(args[0]);
@@ -22,6 +25,9 @@ public class Driver {
 		switch(mapperType){
 			case 0:
 				startJob(FirstMapper.class, FirstReducer.class, TextInputFormat.class, TextOutputFormat.class, inputPath, outputPath);
+				break;
+			case 1:
+				startJob(CleaningMapper.class, CleaningReducer.class, TextInputFormat.class, TextOutputFormat.class, inputPath, outputPath);
 				break;
 			default:
 				throw new IOException("Unkown mapper type");
