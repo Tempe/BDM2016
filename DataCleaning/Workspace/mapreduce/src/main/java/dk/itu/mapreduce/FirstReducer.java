@@ -11,8 +11,10 @@ public class FirstReducer extends Reducer<LongWritable, Text, LongWritable, Text
 	public void reduce(LongWritable key, Iterable<Text> values, Context context)
 			throws IOException, InterruptedException {
 		for (Text value : values) {
-			// Write key and corresponding values to output file
-			context.write(key, value);
+			String[] readings = value.toString().split(",");
+			for(String reading : readings){
+				context.write(key, new Text(reading));
+			}
 		}
 	}
 
