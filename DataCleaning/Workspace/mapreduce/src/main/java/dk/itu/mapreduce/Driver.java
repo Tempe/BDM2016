@@ -23,8 +23,11 @@ public class Driver {
 			case 0:
 				startJob(PreprocessingMapper.class, PreprocessingReducer.class, TextInputFormat.class, TextOutputFormat.class, inputPath, outputPath);
 				break;
+			case 1:
+				startJob(ErrorReportMapper.class, ErrorReportReducer.class, TextInputFormat.class, TextOutputFormat.class, inputPath, outputPath);
+				break;
 			default:
-				throw new IOException("Unkown mapper type.");
+				throw new IOException("Unkown mapper type. Use {0,1}");
 		}
 	}
 	
