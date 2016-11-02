@@ -6,7 +6,7 @@ import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
 
-public class FirstReducer extends Reducer<LongWritable, Text, LongWritable, Text> {
+public class PreprocessingReducer extends Reducer<LongWritable, Text, LongWritable, Text> {
 
 	public void reduce(LongWritable key, Iterable<Text> values, Context context)
 			throws IOException, InterruptedException {

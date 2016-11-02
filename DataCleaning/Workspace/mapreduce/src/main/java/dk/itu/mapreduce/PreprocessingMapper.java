@@ -10,7 +10,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-public class FirstMapper extends Mapper<LongWritable, Text, LongWritable, Text> {
+public class PreprocessingMapper extends Mapper<LongWritable, Text, LongWritable, Text> {
 
 	public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
 		// send key and value to reducer
