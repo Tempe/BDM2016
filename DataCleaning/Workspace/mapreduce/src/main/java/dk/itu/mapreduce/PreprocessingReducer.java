@@ -5,9 +5,9 @@ import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
 
-public class PreprocessingReducer extends Reducer<LongWritable, Text, LongWritable, Text> {
+public class PreprocessingReducer extends Reducer<Text, Text, Text, Text> {
 
-	public void reduce(LongWritable key, Iterable<Text> values, Context context)
+	public void reduce(Text key, Iterable<Text> values, Context context)
 			throws IOException, InterruptedException {
 		for (Text value : values) {
 			String[] readings = value.toString().split(",");

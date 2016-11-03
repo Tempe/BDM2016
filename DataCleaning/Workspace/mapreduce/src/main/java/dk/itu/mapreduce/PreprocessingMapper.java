@@ -10,7 +10,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-public class PreprocessingMapper extends Mapper<LongWritable, Text, LongWritable, Text> {
+public class PreprocessingMapper extends Mapper<LongWritable, Text, Text, Text> {
 
 	public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
 		// send key and value to reducer
@@ -57,7 +57,7 @@ public class PreprocessingMapper extends Mapper<LongWritable, Text, LongWritable
     	for(String r : outputArray){
     		output += r + ",";
     	}
-		context.write(new LongWritable((long)uuid.hashCode()), new Text(output.substring(0, output.length()-1)));
+		context.write(new Text(uuid), new Text(output.substring(0, output.length()-1)));
 	}
 	
 	private static boolean hasValidLogons(long logons){
