@@ -24,71 +24,19 @@ public class Driver {
 		
 		switch(mapperType){
 			case 0:
-				startCleanJob(inputPath, outputPath);
+				DriverService.startCleaningJob(inputPath, outputPath);
 				break;
 			case 1:
-				startBatchErrorJob(inputPath, outputPath);
+				DriverService.startErrorsBatchJob(inputPath, outputPath);
+				break;
+			case 2:
+				DriverService.startVisitorsBatchJob(inputPath, outputPath);
+				break;
+			case 3:
+				DriverService.startMaxVisitorsBatchJob(inputPath, outputPath);
 				break;
 			default:
-				throw new IOException("Unkown mapper type. Use {0,1}");
+				throw new IOException("Unkown mapper type. Use: 0(clean), 1(errors), 2(visitors) or 3(maxvisitors)");
 		}
-	}
-	
-	public static void startCleanJob(String inputPath, String outputPath) throws IOException, ClassNotFoundException, InterruptedException {
-		
-		Configuration conf = new Configuration();
-		Job job = new Job(conf, "First Mapreduce App");
-
-		// Set driver class
-		job.setJarByClass(Driver.class);
-
-		// Set Input & Output Format
-		job.setInputFormatClass(TextInputFormat.class);
-        //job.setOutputFormatClass(TextOutputFormat.class);
-		job.setOutputKeyClass(Text.class);
-		job.setOutputValueClass(Text.class);
-
-		// Set Mapper & Reducer Class
-		job.setMapperClass(PreprocessingMapper.class);
-        job.setReducerClass(PreprocessingReducer.class);
-
-
-		// No. of reduce tasks, equals no. output file
-		job.setNumReduceTasks(1);
-
-		// HDFS input and output path
-		FileInputFormat.addInputPath(job, new Path(inputPath));
-		FileOutputFormat.setOutputPath(job, new Path(outputPath));
-
-		job.waitForCompletion(true);
-	}
-	
-	public static void startBatchErrorJob(String inputPath, String outputPath) throws IOException, ClassNotFoundException, InterruptedException {
-		
-		Configuration conf = new Configuration();
-		conf.set("mapreduce.input.keyvaluelinerecordreader.key.value.separator", "\\s+");
-		Job job = new Job(conf, "Error report job.");
-
-		// Set driver class
-		job.setJarByClass(Driver.class);
-
-		// Set Input & Output Format
-		job.setInputFormatClass(TextInputFormat.class);		
-        job.setOutputFormatClass(TextOutputFormat.class);
-
-		// Set Mapper & Reducer Class
-		job.setMapperClass(ErrorReportMapper.class);
-        job.setReducerClass(ErrorReportReducer.class);
-		//job.setOutputKeyClass(Text.class);
-		//job.setOutputValueClass(Text.class);
-
-		// No. of reduce tasks, equals no. output file
-		job.setNumReduceTasks(1);
-
-		// HDFS input and output path
-		FileInputFormat.addInputPath(job, new Path(inputPath));
-		FileOutputFormat.setOutputPath(job, new Path(outputPath));
-
-		job.waitForCompletion(true);
 	}
 }
