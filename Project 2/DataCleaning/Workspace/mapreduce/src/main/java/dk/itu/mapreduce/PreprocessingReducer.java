@@ -40,9 +40,9 @@ public class PreprocessingReducer extends Reducer<Text, Text, Text, Text> {
 				int mean = rangeSum / (arrayEnd - arrayStart);
 				// Outlier
 				if (variance * mean - logons[i] < 0) {
-					output = String.format("%1$s; %2$d; %3$d", timestamps[i], logons[i], 2);
+					output = String.format("%1$s;%2$d;%3$d", timestamps[i], logons[i], 2);
 				} else {
-					output = String.format("%1$s; %2$d; %3$d", timestamps[i], logons[i], dirtyBit[i]+2);
+					output = String.format("%1$s;%2$d;%3$d", timestamps[i], logons[i], dirtyBit[i]+2);
 				}
 				context.write(key, new Text(output));
 			}

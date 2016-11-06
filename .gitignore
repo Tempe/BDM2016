@@ -1,6 +1,9 @@
 # ConnectionString
 connectionstring
 
+# data
+2016-10-04.json
+
 # Java
 *.class
 
@@ -68,4 +71,4 @@ local.properties
 
 # Code Recommenders
 .recommenders/
-DataCleaning/2016-10-04.json
+
