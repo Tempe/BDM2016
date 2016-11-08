@@ -1,0 +1,13 @@
+<fcd-export>
+  
+  <timestep time="<TIME_STEP>">
+     <vehicle id="<VEHICLE_ID>" x="<VEHICLE_POS_X>" y="<VEHICLE_POS_Y>" angle="<VEHICLE_ANGLE>" type="<VEHICLE_TYPE>" 
+     speed="<VEHICLE_SPEED>"/>
+     
+     ... more vehicles ...
+
+ </timestep>
+
+ ... next timestep ...
+
+</fcd-export>
