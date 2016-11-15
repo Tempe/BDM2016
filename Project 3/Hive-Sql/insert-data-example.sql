@@ -1,0 +1,1 @@
+load data LOCAL inpath 'test.csv' overwrite into table masterDb;

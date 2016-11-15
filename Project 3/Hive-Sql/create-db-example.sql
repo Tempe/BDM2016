@@ -1,0 +1,1 @@
+CREATE TABLE masterDb (id int,name string, age int, hasMom boolean) row format delimited fields terminated by '\073' stored as textfile tblproperties("skip.header.line.count"="1");
