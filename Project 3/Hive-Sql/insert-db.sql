@@ -1,0 +1,1 @@
+load data LOCAL inpath '/home/shared/project3/FCDOutput/FCDOutput.csv' overwrite into table masterRaw;
